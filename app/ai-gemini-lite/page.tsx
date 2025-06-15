@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function Home() {
+export default function GeminiLite() {
     const [prompt, setPrompt] = useState('');
     const [response, setResponse] = useState('');
     const [loading, setLoading] = useState(false);
@@ -37,6 +37,11 @@ export default function Home() {
         }
     };
 
+    const clearChat = (): void => {
+        setPrompt('');
+        setResponse('');
+    };
+
     return (
         <div className="container mx-auto p-6 max-w-4xl">
             <h1 className="text-3xl font-bold mb-8 text-center">
@@ -54,13 +59,22 @@ export default function Home() {
                         disabled={loading}
                     />
 
-                    <button
-                        type="submit"
-                        disabled={loading || !prompt.trim()}
-                        className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-                    >
-                        {loading ? 'Processando...' : 'Enviar'}
-                    </button>
+                    <div className="flex gap-4 mb-6">
+                        <button
+                            type="submit"
+                            disabled={loading || !prompt.trim()}
+                            className="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-medium"
+                        >
+                            {loading ? 'Enviando...' : 'Enviar'}
+                        </button>
+                        <button
+                            onClick={clearChat}
+                            disabled={loading}
+                            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:bg-gray-200 disabled:cursor-not-allowed transition-colors font-medium"
+                        >
+                            Limpar
+                        </button>
+                    </div>
                 </div>
             </form>
 
