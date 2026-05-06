@@ -1,6 +1,8 @@
 'use client'
 
+import Link from "next/link";
 import { useState } from "react";
+import { MarkdownContent } from "@/components/MarkdownContent";
 
 export default function GeminiLite() {
     const [prompt, setPrompt] = useState('');
@@ -23,12 +25,25 @@ export default function GeminiLite() {
                 body: JSON.stringify({ prompt }),
             });
 
-            if (!res.ok) {
-                throw new Error('Erro na requisição');
+            let data: { response?: string; error?: string };
+            try {
+                data = await res.json();
+            } catch {
+                setResponse(
+                    'Não foi possível ler a resposta do servidor. Tente novamente.'
+                );
+                return;
             }
 
-            const data = await res.json();
-            setResponse(data.response);
+            if (!res.ok) {
+                setResponse(
+                    data.error ??
+                        `Erro ${res.status}. Tente novamente ou verifique a configuração da API.`
+                );
+                return;
+            }
+
+            setResponse(data.response ?? '');
         } catch (error) {
             console.error('Erro:', error);
             setResponse('Erro ao processar sua solicitação. Tente novamente.');
@@ -44,6 +59,14 @@ export default function GeminiLite() {
 
     return (
         <div className="container mx-auto p-6 max-w-4xl">
+            <div className="mb-6">
+                <Link
+                    href="/"
+                    className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                >
+                    ← Voltar
+                </Link>
+            </div>
             <h1 className="text-3xl font-bold mb-8 text-center">
                 Chat com Gemini Lite
             </h1>
@@ -83,9 +106,7 @@ export default function GeminiLite() {
                     <h2 className="text-xl font-semibold mb-4 text-gray-800">
                         Resposta do Gemini:
                     </h2>
-                    <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
-                        {response}
-                    </div>
+                    <MarkdownContent source={response} />
                 </div>
             )}
 

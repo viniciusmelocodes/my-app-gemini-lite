@@ -1,6 +1,8 @@
 'use client'
 
+import Link from "next/link";
 import { useState } from "react";
+import { MarkdownContent } from "@/components/MarkdownContent";
 
 interface DeepSeekResponse {
   choices: Array<{
@@ -83,6 +85,14 @@ export default function DeepSeek() {
 
   return (
     <div className="container mx-auto p-6 max-w-4xl">
+        <div className="mb-6">
+          <Link
+            href="/"
+            className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+          >
+            ← Voltar
+          </Link>
+        </div>
         <h1 className="text-3xl font-bold mb-8 text-center">
             Chat com DeepSeek
         </h1>
@@ -151,9 +161,7 @@ export default function DeepSeek() {
           </div>
           
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 min-h-[200px]">
-            <div className="whitespace-pre-wrap text-gray-800 leading-relaxed">
-              {response}
-            </div>
+            <MarkdownContent source={response} />
           </div>
         </div>
       )}

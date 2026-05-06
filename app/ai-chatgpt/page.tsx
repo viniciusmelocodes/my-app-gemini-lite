@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link';
 import { useState } from 'react';
 
 interface ChatMessage {
@@ -117,6 +118,14 @@ export default function ChatGPT() {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg min-h-screen">
+      <div className="mb-6">
+        <Link
+          href="/"
+          className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors"
+        >
+          ← Voltar
+        </Link>
+      </div>
       <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
         Chat com ChatGPT
       </h1>
